@@ -1,4 +1,5 @@
 package func;
+import static func.DVP.*;
 
 /**
  * Created by daojia on 2017-9-7.
@@ -65,7 +66,18 @@ public class Matlab {
         return r;
     }
     public static double[][] fra(int len,int inc,double[] z){
-        return null;
+        int fh =fix((z.length-len)*1.0/inc+1);
+        double[][] f = zerosM(fh,len);
+        for(int i=0;i<fh;i++){
+            for(int j=0;j<len;j++){
+                if(i==0) {
+                    f[i][j] = z[j];
+                }else{
+                    f[i][j] = z[(i+i)*len-i*inc+j];
+                }
+            }
+        }
+        return f;
     }
     public static void main(String[] args){
         //Complex[] a = polyvalCList(new double[]{2.0, 1.0}, new Complex[]{new Complex(1, 1),new Complex(2,3)});
