@@ -10,6 +10,8 @@ import static func.DVP.*;
  * angle 复数atan2
  * fix 接近0的整数
  * fixList 对序列做fix
+ * fra 分帧
+ * zcro 过零率
  */
 public class Matlab {
     public static double polyval(double[] p,double x){
@@ -67,13 +69,28 @@ public class Matlab {
     }
     public static double[][] fra(int len,int inc,double[] z){
         int fh =fix((z.length-len)*1.0/inc+1);
+        System.out.println(fh);
         double[][] f = zerosM(fh,len);
-        for(int i=0;i<fh;i++){
-            for(int j=0;j<len;j++){
-                if(i==0) {
-                    f[i][j] = z[j];
-                }else{
-                    f[i][j] = z[(i+i)*len-i*inc+j];
+        int i=0;
+        int n=0;
+        while(i<fh){
+            int j=0;
+            while(j<len){
+                f[i][j]=z[n];
+                j=j+1;
+                n=n+1;
+            }
+            n = n-len+inc;
+            i=i+1;
+        }
+        return f;
+    }
+    public static double[] zcro(double[][] x){
+        double[] f = zeros(x.length);
+        for(int i=0;i<x.length;i++){
+            for(int j=0;j<x[0].length-1;j++){
+                if(x[i][j]*x[i][j+1]<0){
+                    f[i]=f[i]+1;
                 }
             }
         }
